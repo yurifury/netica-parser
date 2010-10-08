@@ -21,4 +21,20 @@ sub list_priors {
     }
     return @priors;
 }
+
+sub create_ordered_hash {
+    my $self = shift;
+
+    my %ordering = ();
+    foreach my $node (sort keys %{$self}) {
+        next if $node =~ /^_/;
+        if (defined $self->{$node}->{parents}) {
+            foreach my $parent (@{$self->{$node}->{parents}}) {
+                push @{$ordering{$node}}, $parent;
+                #print "${node}'s parent is $parent\n";
+            }
+        }
+    }
+    return %ordering;
+}
 1;
