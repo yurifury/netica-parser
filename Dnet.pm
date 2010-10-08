@@ -1,5 +1,6 @@
 use warnings;
 use strict;
+use Data::Dumper;
 
 package Dnet;
 sub new {
@@ -11,15 +12,12 @@ sub new {
 sub list_priors {
     my $self = shift;
     my @priors = ();
-    use Data::Dumper;
     foreach my $node (sort keys %{$self}) {
-        print "$node\n";
-        $self->{$node};
-        #print Dumper $self->{$node}->{parents};
-        #if (defined $self->{$node}->{parents}
-                #and @{$self->{$node}->{parents}} == 0) {
-            #push @priors, $node;
-        #}
+        next if $node =~ /^_/;
+        if (defined $self->{$node}->{parents}
+                and @{$self->{$node}->{parents}} == 0) {
+            push @priors, $node;
+        }
     }
     return @priors;
 }
