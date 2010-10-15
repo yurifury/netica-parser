@@ -1,2 +1,2 @@
 #!/bin/bash
-perl parse_dnet.pl < Exam.dnet
+perl clean_dnet.pl < Exam.dnet
