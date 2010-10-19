@@ -44,7 +44,7 @@ foreach my $x (@contents) {
 for (@contents) {
     # If we've found a node, make a new node in dnet
     # Also get ready to pull this node's attributes
-    if (/node (\w+)/) {
+    if (/node (\S+)/) {
         my $node_name = $1;
         $in_node = $1;
         $dnet->{$1} = {};
@@ -52,9 +52,9 @@ for (@contents) {
     # We're in the attributes of a node
     if ($in_node) {
         # Fields to ignore
-        next if /whenchanged|center|height/;
+        next if /comment|whenchanged|center|height/;
         # Parse a single key/value
-        if (/(\w+) = (\w+)/) {
+        if (/(\S+) = (\S+)/) {
             $dnet->{$in_node}->{$1} = $2;
         }
         # Parse a list
@@ -66,7 +66,7 @@ for (@contents) {
         }
     }
     # Set the name of the BN when we've found it
-    if (/bnet (\w+)/) {
+    if (/bnet (\S+)/) {
         $dnet->{_name} = $1;
     }
 }
@@ -96,7 +96,7 @@ sub parse_list {
     $list =~ s/^,//g;
     $list =~ s/\s//g;
 
-    $list =~ s/(\w+)/"$1"/g;
+    $list =~ s/([\w.]+)/"$1"/g;
 
     $list =~ s/\(/[/g;
     $list =~ s/\)/]/g;
