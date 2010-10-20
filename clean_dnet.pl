@@ -11,7 +11,9 @@ if (defined $ARGV[0]) {
 }
 my $dnet = Dnet->new();
 $dnet->create_from_file($filename);
-print Dumper $dnet;
+$dnet->gen_dot_partial('durp');
+$dnet->gen_dot_topo('hurp');
+#print Dumper $dnet;
 
 #my %ordering = $dnet->create_ordered_hash();
 #print "Node: Parents\n";
