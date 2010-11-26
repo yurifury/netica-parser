@@ -1,0 +1,131 @@
+// ~->[DNET-1]->~
+
+// File created by someone at MonashUniv using Netica 2.06 on Mar 29, 2005 at 23:16:07.
+
+bnet metastatic {
+autoupdate = TRUE;
+whenchanged = 1112101321;
+
+visual V1 {
+	defdispform = BELIEFBARS;
+	nodelabeling = TITLE;
+	NodeMaxNumEntries = 50;
+	nodefont = font {shape= "Arial"; size= 10;};
+	linkfont = font {shape= "Arial"; size= 9;};
+	windowposn = (127, 69, 681, 435);
+	resolution = 72;
+	drawingbounds = (1046, 769);
+	showpagebreaks = FALSE;
+	usegrid = TRUE;
+	gridspace = (6, 6);
+	PrinterSetting A {
+		margins = (1270, 1270, 1270, 1270);
+		landscape = FALSE;
+		magnify = 1;
+		};
+	};
+
+node M {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (true, false);
+	parents = ();
+	probs = 
+		// true         false        
+		  (0.9,         0.1);
+	whenchanged = 1112100849;
+	belief = (0.9, 0.1);
+	visual V1 {
+		center = (210, 60);
+		height = 1;
+		};
+	};
+
+node S {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (true, false);
+	parents = (M);
+	probs = 
+		// true         false          // M     
+		 ((0.8,         0.2),          // true  
+		  (0.2,         0.8));         // false ;
+	whenchanged = 1112100874;
+	belief = (0.74, 0.26);
+	visual V1 {
+		center = (108, 138);
+		height = 2;
+		link 1 {
+			path = ((175, 88), (144, 111));
+			};
+		};
+	};
+
+node B {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (true, false);
+	parents = (M);
+	probs = 
+		// true         false          // M     
+		 ((0.2,         0.8),          // true  
+		  (0.05,        0.95));        // false ;
+	whenchanged = 1112100903;
+	belief = (0.185, 0.815);
+	visual V1 {
+		center = (306, 144);
+		height = 3;
+		link 1 {
+			path = ((240, 88), (275, 117));
+			};
+		};
+	};
+
+node C {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (true, false);
+	parents = (S, B);
+	probs = 
+		// true         false           // S     B     
+		(((0.8,         0.2),           // true  true  
+		  (0.8,         0.2)),          // true  false 
+		 ((0.8,         0.2),           // false true  
+		  (0.05,        0.95)));        // false false ;
+	whenchanged = 1112101321;
+	belief = (0.635, 0.365);
+	visual V1 {
+		center = (192, 228);
+		height = 4;
+		link 2 {
+			path = ((270, 172), (229, 201));
+			};
+		};
+	};
+
+node H {
+	kind = NATURE;
+	discrete = TRUE;
+	chance = CHANCE;
+	states = (true, false);
+	parents = (B);
+	probs = 
+		// true         false          // B     
+		 ((0.8,         0.2),          // true  
+		  (0.6,         0.4));         // false ;
+	whenchanged = 1112100950;
+	belief = (0.637, 0.363);
+	visual V1 {
+		center = (414, 222);
+		height = 5;
+		link 1 {
+			path = ((343, 172), (376, 195));
+			};
+		};
+	};
+ElimOrder = (H, M, S, B, C);
+};
