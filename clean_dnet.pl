@@ -11,8 +11,8 @@ if (defined $ARGV[0]) {
 }
 my $dnet = Dnet->new();
 $dnet->create_from_file($filename);
-$dnet->gen_dot_partial('durp');
-$dnet->gen_dot_topo('hurp');
+$dnet->gen_dot_partial('partial.dot');
+$dnet->gen_dot_topo('topological.dot');
 #print Dumper $dnet;
 
 #my %ordering = $dnet->create_ordered_hash();
