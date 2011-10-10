@@ -2,7 +2,7 @@
 
     Usage: perl parse_dnet.pl /path/to/dnet/file
 
-This will spit out a file called partial.dot and parsed_dnet.json.
+This will spit out two files. partial.dot and parsed_dnet.json.
 
 partial.dot is a dot file, representing the partial order of the bayes net. With graphviz installed, you can run
 
