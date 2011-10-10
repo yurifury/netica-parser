@@ -4,29 +4,23 @@ use strict;
 use warnings;
 use Data::Dumper;
 use Dnet;
+use JSON -convert_blessed_universally;
 
+my $filename = $ARGV[0];
+print "Usage: perl parse_dnet.pl dnet_filename" and die unless defined $filename;
+
+# Create a new Dnet object, which is our parser
 my $dnet = Dnet->new();
-my $in_node = 0;
 
-while (<>) {
-    if ($in_node) {
-        if (/(\w+) = (\w+);/) {
-            $dnet->{$in_node}->{$1} = $2;
-        }
-        if (/(\w+) = \(([\w, ]+)\);/) {
-            my @list = split /,/, $2;
-            s/[ ']//g for @list;
-            $dnet->{$in_node}->{$1} = [@list];
-        }
-    }
-    if (/bnet (\w+)/) {
-        $dnet->{_name} = $1;
-    }
-    if (/node (\w+)/) {
-        my $node_name = $1;
-        $in_node = $1;
-        $dnet->{$1} = {};
-    }
-}
+# Parse the file
+$dnet->create_from_file($filename);
 
-print Dumper $dnet;
+# Spit out the partial representation in .dot
+$dnet->gen_dot_partial('partial.dot');
+
+# Spit out the other data in .json
+# add ->pretty(1) for compact output
+# pretty output: JSON->new->pretty(1)->convert_blessed->encode($dnet);
+open my $json_file, '>', 'parsed_dnet.json';
+print $json_file JSON->new->pretty(1)->convert_blessed->encode($dnet);
+close $json_file;
